@@ -1,10 +1,10 @@
 # Missing values
 
 ---
-title: "missing_data"
-author: "Xianmeng Wang"
-date: "11/18/2021"
-output: html_document
+#title: "missing_data"
+#author: "Xianmeng Wang"
+#date: "11/18/2021"
+#output: html_document
 ---
 
 ```{r setup, include=FALSE}
