@@ -27,48 +27,53 @@ missing_patterns_plot <- function(dataset, percent = F) {
     rownames_to_column("id") %>%
     gather(key, value, -id, -count) %>%
     rename(Missing = value) %>%
-    ggplot(aes(x = factor(key, levels = names(count_by_attr)), factor(id, levels = max(as.numeric(id)):min(as.numeric(id))), fill = Missing, alpha = id)) +
+    mutate(id = factor(id, levels = max(as.numeric(id)):min(as.numeric(id)))) %>%
+    ggplot(aes(x = factor(key, levels = names(count_by_attr)), y = id, fill = Missing, alpha = fct_rev(id))) +
     geom_tile(color = "white") +
     labs(x = "variable", y = "missing pattern") +
     annotate("text", x = ncol(dataset)/2, y = which(rev(rowSums(missing_patterns %>%
                                          select(-count)) == 0)), label = "complete case") +
-    scale_fill_manual(values = c("lightskyblue1", "pink1")) + 
     scale_alpha_manual(values = (rowSums(missing_patterns %>%
-                                         select(-count)) > 0)+0.5, guide = "none") +
+                                         select(-count)) ==  0)+0.7, guide = "none") +
+    scale_fill_manual(values = c("lightskyblue1", "pink1")) + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
   
   num_rows <- ggplot(bind_cols(tibble(count_by_attr), attrs = names(count_by_attr)), aes(x = factor(attrs, levels = names(count_by_attr)), y = count_by_attr, fill = "rosybrown")) +
     geom_bar(stat = "identity") +
     ylim(0, ifelse(sum(count_by_attr) != 0, NA, nrow(dataset))) +
-    scale_fill_manual(values = "rosybrown", guide = "none") +
+    scale_fill_manual(values = alpha("rosybrown", 0.7), guide = "none") +
     labs(title = "Missing value patterns",
          y = "num rows\nmissing", x = "") +
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
     
-  row_count <- ggplot(missing_patterns %>% rowid_to_column("id"), aes(x = factor(id, levels = max(as.numeric(id)):min(as.numeric(id))), y = count, fill = "rosybrown")) +
+  row_count <- ggplot(missing_patterns %>% rowid_to_column("id"), aes(x = factor(id, levels = max(as.numeric(id)):min(as.numeric(id))), y = count, fill = "rosybrown", alpha = as.factor(id))) +
     geom_bar(stat = "identity") +
     ylim(0, ifelse(sum(count_by_attr) != 0, NA, nrow(dataset))) +
     labs(y = "row count", x = "") +
     scale_fill_manual(values = "rosybrown", guide = "none") + 
+    scale_alpha_manual(values = (rowSums(missing_patterns %>%
+                                         select(-count)) ==  0)+0.7, guide = "none") +
     coord_flip() +
     theme_bw()
   
   perc_rows <- ggplot(bind_cols(tibble(count_by_attr), attrs = names(count_by_attr)), aes(x = factor(attrs, levels = names(count_by_attr)), y = count_by_attr/nrow(dataset)*100, fill = "rosybrown")) +
     geom_bar(stat = "identity") +
     ylim(0, 100) +
-    scale_fill_manual(values = "rosybrown", guide = "none") +
+    scale_fill_manual(values = alpha("rosybrown", 0.7), guide = "none") +
     labs(title = "Missing value patterns",
          y = "% rows\nmissing", x = "") +
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
     
-  row_perc <- ggplot(missing_patterns %>% rowid_to_column("id"), aes(x = factor(id, levels = max(as.numeric(id)):min(as.numeric(id))), y = count/nrow(dataset)*100, fill = "rosybrown")) +
+  row_perc <- ggplot(missing_patterns %>% rowid_to_column("id"), aes(x = factor(id, levels = max(as.numeric(id)):min(as.numeric(id))), y = count/nrow(dataset)*100, fill = "rosybrown", alpha = as.factor(id))) +
     geom_bar(stat = "identity") +
     ylim(0, 100) +
     labs(y = "% rows", x = "") +
     scale_fill_manual(values = "rosybrown", guide = "none") + 
+    scale_alpha_manual(values = (rowSums(missing_patterns %>%
+                                         select(-count)) == 0)+0.7, guide = "none") +
     coord_flip() +
     theme_bw()
   
