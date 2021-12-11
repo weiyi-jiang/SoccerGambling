@@ -24,7 +24,7 @@
 <meta name="author" content="Sicheng Li, Weiyi Jiang and Xianmeng Wang" />
 
 
-<meta name="date" content="2021-11-19" />
+<meta name="date" content="2021-12-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -138,12 +138,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
-<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
+<li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-sources.html"><a href="data-sources.html#data-description"><i class="fa fa-check"></i><b>2.1</b> Data description</a></li>
+<li class="chapter" data-level="2.2" data-path="data-sources.html"><a href="data-sources.html#issues-and-problems"><i class="fa fa-check"></i><b>2.2</b> Issues and Problems</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="data-transformation.html"><a href="data-transformation.html#player-attributes"><i class="fa fa-check"></i><b>3.1</b> Player Attributes</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="data-transformation.html"><a href="data-transformation.html#filtering-goalkeepers"><i class="fa fa-check"></i><b>3.1.1</b> Filtering goalkeepers</a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-transformation.html"><a href="data-transformation.html#filtering-guards"><i class="fa fa-check"></i><b>3.1.2</b> Filtering guards</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="data-transformation.html"><a href="data-transformation.html#team-attributes"><i class="fa fa-check"></i><b>3.2</b> Team attributes</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#team-attributes"><i class="fa fa-check"></i><b>4.1</b> Team attributes</a></li>
-<li class="chapter" data-level="4.2" data-path="missing-values.html"><a href="missing-values.html#player-attributes"><i class="fa fa-check"></i><b>4.2</b> Player attributes</a></li>
+<li class="chapter" data-level="4.1" data-path="missing-values.html"><a href="missing-values.html#team-attributes-1"><i class="fa fa-check"></i><b>4.1</b> Team attributes</a></li>
+<li class="chapter" data-level="4.2" data-path="missing-values.html"><a href="missing-values.html#player-attributes-1"><i class="fa fa-check"></i><b>4.2</b> Player attributes</a></li>
 <li class="chapter" data-level="4.3" data-path="missing-values.html"><a href="missing-values.html#match-data"><i class="fa fa-check"></i><b>4.3</b> Match data</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
@@ -170,7 +182,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
+<div id="data-description" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Data description</h2>
+<p>The data used in this task are downloaded and crawled from open data websites. After organizing we have the following datasets:</p>
+<p><code>player</code> European players spanning 11 counties and 11 leagues.
+Attributes: player_id, player_name, birthday, height, weight
+Key: player_id
+Source: <a href="https://www.football-data.co.uk/data.php" class="uri">https://www.football-data.co.uk/data.php</a></p>
+<p><code>team</code> Reference dataset for the relevant teams.
+Attributes: team_id, team_long_name, team_short_name
+Key: team_id
+Source: <a href="https://www.football-data.co.uk/data.php" class="uri">https://www.football-data.co.uk/data.php</a></p>
+<p><code>match</code> Match outcomes dataset.
+Attributes: 62 columns including match scores and lineup of each team.
+Key: match_id
+Souce: <a href="https://www.football-data.co.uk/data.php" class="uri">https://www.football-data.co.uk/data.php</a></p>
+<p><code>player_attributes</code> skill attributes for players.
+Attributes: 40 columns including 35 categories of football playing skills.
+Key: player_id
+Source: <a href="https://sofifa.com" class="uri">https://sofifa.com</a></p>
+<p><code>team_attributes</code> playing style for teams.
+Attributes: 23 columns including 20 categories of team playing styles.
+Key: team_id
+Source: <a href="https://sofifa.com" class="uri">https://sofifa.com</a></p>
+</div>
+<div id="issues-and-problems" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Issues and Problems</h2>
+<p>The data has provided most of the important information that are needed in this project but it has some shortcomings. On the one hand, there are missing values in match data, player attribute data and team attribute data. We handled the missing values with different methods in Chapter4-missing values. On the other hand, the player attributes data has some players playing in minor leagues that cannot be found in player dataset. As a result, in this project we will be only analyzing the 11 most important leagues listed in <a href="https://www.football-data.co.uk/data.php" class="uri">https://www.football-data.co.uk/data.php</a>.</p>
 
+</div>
 </div>
             </section>
 

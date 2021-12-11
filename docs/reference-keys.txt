@@ -1,9 +1,15 @@
 introduction
 data-sources
+data-description
+issues-and-problems
 data-transformation
-missing-values
-team-attributes
 player-attributes
+filtering-goalkeepers
+filtering-guards
+team-attributes
+missing-values
+team-attributes-1
+player-attributes-1
 match-data
 results
 interactive-component

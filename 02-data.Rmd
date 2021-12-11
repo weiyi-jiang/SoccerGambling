@@ -1,2 +1,43 @@
 # Data sources
 
+## Data description
+The data used in this task are downloaded and crawled from open data websites. After organizing we have the following datasets:
+
+``player`` European players spanning 11 counties and 11 leagues.
+Attributes: player_id, player_name, birthday, height, weight
+Key: player_id
+Source: https://www.football-data.co.uk/data.php
+
+``team`` Reference dataset for the relevant teams.
+Attributes: team_id, team_long_name, team_short_name
+Key: team_id
+Source: https://www.football-data.co.uk/data.php
+
+``match`` Match outcomes dataset.
+Attributes: 62 columns including match scores and lineup of each team.
+Key: match_id
+Souce: https://www.football-data.co.uk/data.php
+
+``player_attributes`` skill attributes for players.
+Attributes: 40 columns including 35 categories of football playing skills.
+Key: player_id
+Source: https://sofifa.com
+
+``team_attributes`` playing style for teams.
+Attributes: 23 columns including 20 categories of team playing styles.
+Key: team_id
+Source: https://sofifa.com
+
+## Issues and Problems
+
+The data has provided most of the important information that are needed in this project but it has some shortcomings. On the one hand, there are missing values in match data, player attribute data and team attribute data. We handled the missing values with different methods in Chapter4-missing values. On the other hand, the player attributes data has some players playing in minor leagues that cannot be found in player dataset. As a result, in this project we will be only analyzing the 11 most important leagues listed in https://www.football-data.co.uk/data.php.
+
+
+
+
+
+
+
+
+
+

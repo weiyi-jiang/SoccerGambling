@@ -1,23 +1,17 @@
----
-title: "03-cleaning"
-author: "Xianmeng Wang"
-date: "11/26/2021"
-output: html_document
----
-# Data transformation
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)
-library(GGally)
-set.seed(12580)
-```
+# Data transformation
+The data from https://www.football-data.co.uk/data.php can be directly downloaded in csv format.
+
+We crawled the data from https://sofifa.com into json format with web crawler based on requests package and parsel package in python. We further transform the json into csv format as the raw data. The crawler is attached in the github repo.
+
 
 ## Player Attributes
 
 There are 183978 players in this dataframe and only about 3000 rows contain NA values. Therefore, directly dropping NA variables is feasible. After that, we sample 5000 of them for a convenient plot.
 
 ```{r}
+library(tidyverse)
+library(GGally)
 df <- read_csv('player_attributes.csv')
 df <- df %>% drop_na()
 df <- sample_n(df, 5000)
