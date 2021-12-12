@@ -1,3 +1,589 @@
 # Interactive component
 
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <title>Radar chart</title>
+  
+  <p>
+    Some explanations goes here.
+  </p>
+  
+  <p>
+  <label for="long_passing" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Long Passing = <span id="long_passing-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="long_passing">
+  </p>
+  
+  <p>
+  <label for="curve" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Curve = <span id="curve-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="curve">
+  </p>
+  
+  <p>
+  <label for="short_passing" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Short Passing = <span id="short_passing-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="short_passing">
+  </p>
+  
+  <p>
+  <label for="crossing" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Crossing = <span id="crossing-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="crossing">
+  </p>
+  
+  <p>
+  <label for="overall_rating" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Overall Rating = <span id="overall_rating-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="overall_rating">
+  </p>
+  
+  <p>
+  <label for="ball_control" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Ball Control = <span id="ball_control-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="ball_control">
+  </p>
+  
+  <p>
+  <label for="potential" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Potential = <span id="potential-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="potential">
+  </p>
+  
+  <p>
+  <label for="reactions" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Reactions = <span id="reactions-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="reactions">
+  </p>
+  
+  <p>
+  <label for="vision" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Vision = <span id="vision-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="vision">
+  </p>
+  
+  <p>
+  <label for="finishing" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Finishing = <span id="finishing-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="finishing">
+  </p>
+  
+  <p>
+  <label for="volleys" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Volleys = <span id="volleys-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="volleys">
+  </p>
+  
+  <p>
+  <label for="positioning" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Positioning = <span id="positioning-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="positioning">
+  </p>
+  
+  <p>
+  <label for="marking" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Marking = <span id="marking-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="marking">
+  </p>
+  
+  <p>
+  <label for="sliding_tackle" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Sliding Tackle = <span id="sliding_tackle-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="sliding_tackle">
+  </p>
+  
+  <p>
+  <label for="standing_tackle" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Standing Tackle = <span id="standing_tackle-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="standing_tackle">
+  </p>
+  
+  <p>
+  <label for="interceptions" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Interceptions = <span id="interceptions-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="interceptions">
+  </p>
+  
+  <p>
+  <label for="dribbling" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Dribbling = <span id="dribbling-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="dribbling">
+  </p>
+  
+  <p>
+  <label for="agility" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Agility = <span id="agility-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="agility">
+  </p>
+  
+  <p>
+  <label for="sprint_speed" 
+    style="display: inline-block; width: 150px; text-align: left">
+    Sprint Speed = <span id="sprint_speed-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="sprint_speed">
+  </p>
+  
+  <p>
+  <label for="stamina" 
+    style="display: inline-block; width: 150px; text-align: left; font-size=12px">
+    Stamina = <span id="stamina-value">…</span>
+  </label>
+  <input type="range" min="1" max="100" id="stamina">
+  </p>
+  
+	<style>
+		body {
+		  overflow: hidden;
+		  margin: 0;
+		  font-size: 12px;
+		  font-family: "Helvetica Neue", Helvetica;
+		}
 
+		#chart {
+		  position: absolute;
+		  top: 400px;
+		  left: 600px;
+		}	
+	</style>
+</head>
+<body>
+  <div id="body">
+  <div id="chart"></div>
+  </div>
+	
+  <script>
+
+  var RadarChart = {
+    draw: function(id, d, options){
+      var cfg = {
+    	  radius: 5,
+    	  w: 400,
+    	  h: 400,
+    	  factor: 1,
+    	  factorLegend: .85,
+    	  levels: 3,
+    	  maxValue: 0,
+    	  radians: 2 * Math.PI,
+    	  opacityArea: 0.5,
+    	  ToRight: 5,
+    	  TranslateX: 80,
+    	  TranslateY: 30,
+    	  ExtraWidthX: 100,
+    	  ExtraWidthY: 100,
+    	  color: d3.scaleOrdinal(d3.schemeCategory10)
+  	  };
+	
+    	if('undefined' !== typeof options){
+    	  for(var i in options){
+      		if('undefined' !== typeof options[i]){
+      		  cfg[i] = options[i];
+      		}
+    	  }
+    	}
+	    cfg.maxValue = 100
+    	var allAxis = (d[0].map(function(i, j){return i.axis}));
+    	var allValues = (d[0].map(function(i, j){return i.value}));
+    	var total = allAxis.length;
+    	var radius = cfg.factor*Math.min(cfg.w/2, cfg.h/2);
+	d3.select(id).select("svg").remove();
+	
+	    var g = d3.select(id)
+			        .append("svg")
+			        .attr("width", cfg.w+cfg.ExtraWidthX)
+			        .attr("height", cfg.h+cfg.ExtraWidthY)
+			        .append("g")
+			        .attr("transform", "translate(" + cfg.TranslateX + "," + cfg.TranslateY + ")");
+
+	     var tooltip;
+	
+	//Circular segments
+	for(var j=0; j<cfg.levels-1; j++){
+	  var levelFactor = cfg.factor*radius*((j+1)/cfg.levels);
+	  g.selectAll(".levels")
+	   .data(allAxis)
+	   .enter()
+	   .append("svg:line")
+	   .attr("x1", function(d, i){return levelFactor*(1-cfg.factor*Math.sin(i*cfg.radians/total));})
+	   .attr("y1", function(d, i){return levelFactor*(1-cfg.factor*Math.cos(i*cfg.radians/total));})
+	   .attr("x2", function(d, i){return levelFactor*(1-cfg.factor*Math.sin((i+1)*cfg.radians/total));})
+	   .attr("y2", function(d, i){return levelFactor*(1-cfg.factor*Math.cos((i+1)*cfg.radians/total));})
+	   .attr("class", "line")
+	   .style("stroke", "grey")
+	   .style("stroke-opacity", "0.75")
+	   .style("stroke-width", "0.3px")
+	   .attr("transform", "translate(" + (cfg.w/2-levelFactor) + ", " + (cfg.h/2-levelFactor) + ")");
+	}
+
+	for(var j=0; j<cfg.levels; j++){
+	  var levelFactor = cfg.factor*radius*((j+1)/cfg.levels);
+	  g.selectAll(".levels")
+	   .data([1])
+	   .enter()
+	   .append("svg:text")
+	   .attr("x", function(d){return levelFactor*(1-cfg.factor*Math.sin(0));})
+	   .attr("y", function(d){return levelFactor*(1-cfg.factor*Math.cos(0));})
+	   .attr("class", "legend")
+	   .style("font-family", "sans-serif")
+	   .style("font-size", "10px")
+	   .attr("transform", "translate(" + (cfg.w/2-levelFactor + cfg.ToRight) + ", " + (cfg.h/2-levelFactor) + ")")
+	   .attr("fill", "#737373")
+	   .text((j+1)*cfg.maxValue/cfg.levels);
+	}
+	
+	series = 0;
+
+	var axis = g.selectAll(".axis")
+			.data(allAxis)
+			.enter()
+			.append("g")
+			.attr("class", "axis");
+
+	axis.append("line")
+		.attr("x1", cfg.w/2)
+		.attr("y1", cfg.h/2)
+		.attr("x2", function(d, i){return cfg.w/2*(1-cfg.factor*Math.sin(i*cfg.radians/total));})
+		.attr("y2", function(d, i){return cfg.h/2*(1-cfg.factor*Math.cos(i*cfg.radians/total));})
+		.attr("class", "line")
+		.style("stroke", "grey")
+		.style("stroke-width", "1px");
+
+	axis.append("text")
+		.attr("class", "legend")
+		.text(function(d, i){return d + " (" + Math.round(allValues[i] * 100) / 100 + ")"})
+		.style("font-family", "sans-serif")
+		.style("font-size", "11px")
+		.attr("text-anchor", "middle")
+		.attr("dy", "1.5em")
+		.attr("transform", function(d, i){return "translate(0, -10)"})
+		.attr("x", function(d, i){return cfg.w/2*(1-cfg.factorLegend*Math.sin(i*cfg.radians/total))-60*Math.sin(i*cfg.radians/total);})
+		.attr("y", function(d, i){return cfg.h/2*(1-Math.cos(i*cfg.radians/total))-20*Math.cos(i*cfg.radians/total);});
+
+ 
+	d.forEach(function(y, x){
+	  dataValues = [];
+	  g.selectAll(".nodes")
+		.data(y, function(j, i){
+		  dataValues.push([
+			cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)), 
+			cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
+		  ]);
+		});
+	  dataValues.push(dataValues[0]);
+	  g.selectAll(".area")
+					 .data([dataValues])
+					 .enter()
+					 .append("polygon")
+					 .attr("class", "radar-chart-serie"+series)
+					 .style("stroke-width", "2px")
+					 .style("stroke", cfg.color(series))
+					 .attr("points",function(d) {
+						 var str="";
+						 for(var pti=0;pti<d.length;pti++){
+							 str=str+d[pti][0]+","+d[pti][1]+" ";
+						 }
+						 return str;
+					  })
+					 .style("fill", function(j, i){return cfg.color(series)})
+					 .style("fill-opacity", cfg.opacityArea)
+					 .on('mouseover', function (d){
+										z = "polygon."+d3.select(this).attr("class");
+										g.selectAll("polygon")
+										 .transition(200)
+										 .style("fill-opacity", 0.1); 
+										g.selectAll(z)
+										 .transition(200)
+										 .style("fill-opacity", .7);
+									  })
+					 .on('mouseout', function(){
+										g.selectAll("polygon")
+										 .transition(200)
+										 .style("fill-opacity", cfg.opacityArea);
+					 });
+	  series++;
+	});
+	series=0;
+
+
+	d.forEach(function(y, x){
+	  g.selectAll(".nodes")
+		.data(y).enter()
+		.append("svg:circle")
+		.attr("class", "radar-chart-serie"+series)
+		.attr('r', cfg.radius)
+		.attr("alt", function(j){return Math.max(j.value, 0)})
+		.attr("cx", function(j, i){
+		  dataValues.push([
+			cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)), 
+			cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
+		]);
+		return cfg.w/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total));
+		})
+		.attr("cy", function(j, i){
+		  return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total));
+		})
+		.attr("data-id", function(j){return j.axis})
+		.style("fill", cfg.color(series)).style("fill-opacity", .9)
+		.on('mouseover', function (d){
+					newX =  parseFloat(d3.select(this).attr('cx')) - 10;
+					newY =  parseFloat(d3.select(this).attr('cy')) - 5;
+					
+					tooltip
+						.attr('x', newX)
+						.attr('y', newY)
+						.text(d.value)
+						.transition(200)
+						.style('opacity', 1);
+						
+					z = "polygon."+d3.select(this).attr("class");
+					g.selectAll("polygon")
+						.transition(200)
+						.style("fill-opacity", 0.1); 
+					g.selectAll(z)
+						.transition(200)
+						.style("fill-opacity", .7);
+				  })
+		.on('mouseout', function(){
+					tooltip
+						.transition(200)
+						.style('opacity', 0);
+					g.selectAll("polygon")
+						.transition(200)
+						.style("fill-opacity", cfg.opacityArea);
+				  })
+		.append("svg:title")
+		.text(function(j){return Math.max(j.value, 0)});
+
+	  series++;
+	});
+	//Tooltip
+	tooltip = g.append('text')
+			   .style('opacity', 0)
+			   .style('font-family', 'sans-serif')
+			   .style('font-size', '20px');
+  }
+};
+
+
+var w = 400,
+	  h = 400;
+
+var colorscale = d3.scaleOrdinal(d3.schemeCategory10);
+
+var long_passing = 50;
+var curve = 50;
+var short_passing = 50;
+var crossing = 50;
+var overall_rating = 50;
+var ball_control = 50;
+var potential = 50
+var reactions = 50;
+var vision = 50;
+var finishing = 50;
+var volleys = 50;
+var positioning = 50;
+var marking = 50;
+var sliding_tackle = 50;
+var standing_tackle = 50;
+var interceptions = 50;
+var dribbling = 50;
+var agility = 50;
+var sprint_speed = 50;
+var stamina = 50;
+
+// when the input range changes update the circle 
+d3.select("#long_passing").on("input", function() {
+  long_passing = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#curve").on("input", function() {
+  curve = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#short_passing").on("input", function() {
+  short_passing = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#crossing").on("input", function() {
+  crossing = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#overall_rating").on("input", function() {
+  overall_rating = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#ball_control").on("input", function() {
+  ball_control = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#potential").on("input", function() {
+  potential = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#reactions").on("input", function() {
+  reactions = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#vision").on("input", function() {
+  vision = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#finishing").on("input", function() {
+  finishing = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#volleys").on("input", function() {
+  volleys = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#positioning").on("input", function() {
+  positioning = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#marking").on("input", function() {
+  marking = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#sliding_tackle").on("input", function() {
+  sliding_tackle = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#standing_tackle").on("input", function() {
+  standing_tackle = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#interceptions").on("input", function() {
+  interceptions = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#dribbling").on("input", function() {
+  dribbling = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#agility").on("input", function() {
+  agility = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#sprint_speed").on("input", function() {
+  sprint_speed = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+d3.select("#stamina").on("input", function() {
+  stamina = +this.value
+  update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+});
+
+// Initial starting radius of the circle 
+update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina);
+
+// update the elements
+function update(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina) {
+
+  // adjust the text on the range slider
+  d3.select("#long_passing-value").text(long_passing);
+  d3.select("#long_passing").property("value", long_passing);
+  d3.select("#curve-value").text(curve);
+  d3.select("#curve").property("value", curve);
+  d3.select("#short_passing-value").text(short_passing);
+  d3.select("#short_passing").property("value", short_passing);
+  d3.select("#crossing-value").text(crossing);
+  d3.select("#crossing").property("value", crossing);
+  d3.select("#overall_rating-value").text(overall_rating);
+  d3.select("#overall_rating").property("value", overall_rating);
+  d3.select("#ball_control-value").text(ball_control);
+  d3.select("#ball_control").property("value", ball_control);
+  d3.select("#potential-value").text(potential);
+  d3.select("#potential").property("value", potential);
+  d3.select("#reactions-value").text(reactions);
+  d3.select("#reactions").property("value", reactions);
+  d3.select("#vision-value").text(vision);
+  d3.select("#vision").property("value", vision);
+  d3.select("#finishing-value").text(finishing);
+  d3.select("#finishing").property("value", finishing);
+  d3.select("#volleys-value").text(volleys);
+  d3.select("#volleys").property("value", volleys);
+  d3.select("#positioning-value").text(positioning);
+  d3.select("#positioning").property("value", positioning);
+  d3.select("#marking-value").text(marking);
+  d3.select("#marking").property("value", marking);
+  d3.select("#sliding_tackle-value").text(sliding_tackle);
+  d3.select("#sliding_tackle").property("value", sliding_tackle);
+  d3.select("#standing_tackle-value").text(standing_tackle);
+  d3.select("#standing_tackle").property("value", standing_tackle);
+  d3.select("#interceptions-value").text(interceptions);
+  d3.select("#interceptions").property("value", interceptions);
+  d3.select("#dribbling-value").text(dribbling);
+  d3.select("#dribbling").property("value", dribbling);
+  d3.select("#agility-value").text(agility);
+  d3.select("#agility").property("value", agility);
+  d3.select("#sprint_speed-value").text(sprint_speed);
+  d3.select("#sprint_speed").property("value", sprint_speed);
+  d3.select("#stamina-value").text(stamina);
+  d3.select("#stamina").property("value", stamina);
+  
+  //Legend titles
+//Data
+  let data = [
+      {axis:"Overall",value:(3.54 * overall_rating + 2.37 * ball_control + 1.27 * potential + 1.09 * reactions)/(3.54+2.37+1.27+1.09)},
+      {axis:"Passing",value:(0.95 * long_passing + 2.02 * curve + 5.50 * short_passing + 1.06 * crossing)/(0.95+2.02+5.50+1.06)},
+      {axis:"Physical",value:(6.50 * dribbling + 1.11 * agility + 0.34 * sprint_speed + 2.19 * stamina)/(6.50+1.11+0.34+2.19)},
+      {axis:"Tackle",value:(-0.70 * marking + 4.52 * sliding_tackle + 1.34 * standing_tackle + 5.57 * interceptions)/(4.52+1.34+5.57)},
+      {axis:"Shot",value:(3.89 * vision + 1.01 * finishing + 1.83 * volleys + 2.93 * positioning)/(3.89+1.01+1.83+2.93)}
+  ]
+
+  //Options for the Radar chart, other than default
+  var mycfg = {
+    w: w,
+    h: h,
+    maxValue: 1,
+    levels: 5,
+    ExtraWidthX: 200
+  }
+
+  //Call function to draw the Radar chart
+  //Will expect that data is in %'s
+  RadarChart.draw("#chart", [data], mycfg);
+  
+}
+
+
+    </script>
+
+  </body>
