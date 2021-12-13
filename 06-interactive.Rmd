@@ -6,7 +6,7 @@
   <title>Radar chart</title>
   
   <p>
-    Some explanations goes here.
+    Although team attributes are given in the data
   </p>
   
   <p>
