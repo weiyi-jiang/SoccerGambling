@@ -1,12 +1,5 @@
 # Missing values
 
----
-#title: "missing_data"
-#author: "Xianmeng Wang"
-#date: "11/18/2021"
-#output: html_document
----
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
@@ -86,12 +79,12 @@ missing_patterns_plot <- function(dataset, percent = F) {
 ```
 
 ```{r, echo=F, warning=F, message=F}
-league = read_csv('league.csv')
-match = read_csv('match.csv')
-player = read_csv('player.csv')
-player_attr = read_csv('player_attributes.csv')
-team = read_csv('team.csv')
-team_attr = read_csv('team_attributes.csv')
+league = read_csv('data/league.csv')
+match = read_csv('data/match.csv')
+player = read_csv('data/player.csv')
+player_attr = read_csv('data/player_attributes.csv')
+team = read_csv('data/team.csv')
+team_attr = read_csv('data/team_attributes.csv')
 ```
 
 In the dataset, only team attributes, player attributes and match contain NA values.

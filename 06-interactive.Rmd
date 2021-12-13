@@ -176,6 +176,12 @@
 		  font-size: 12px;
 		  font-family: "Helvetica Neue", Helvetica;
 		}
+		
+		#title {
+		  position:absolute;
+		  top: 350px;
+		  left: 700px;
+		}
 
 		#chart {
 		  position: absolute;
@@ -186,6 +192,9 @@
 </head>
 <body>
   <div id="body">
+  <div id="title">
+  <p>Title</p>
+  </div>
   <div id="chart"></div>
   </div>
 	

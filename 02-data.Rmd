@@ -5,27 +5,37 @@ The data used in this task are downloaded and crawled from open data websites. A
 
 ``player`` European players spanning 11 counties and 11 leagues.
 Attributes: player_id, player_name, birthday, height, weight
+
 Key: player_id
+
 Source: https://www.football-data.co.uk/data.php
 
 ``team`` Reference dataset for the relevant teams.
 Attributes: team_id, team_long_name, team_short_name
+
 Key: team_id
+
 Source: https://www.football-data.co.uk/data.php
 
 ``match`` Match outcomes dataset.
 Attributes: 62 columns including match scores and lineup of each team.
+
 Key: match_id
+
 Souce: https://www.football-data.co.uk/data.php
 
 ``player_attributes`` skill attributes for players.
 Attributes: 40 columns including 35 categories of football playing skills.
+
 Key: player_id
+
 Source: https://sofifa.com
 
 ``team_attributes`` playing style for teams.
 Attributes: 23 columns including 20 categories of team playing styles.
+
 Key: team_id
+
 Source: https://sofifa.com
 
 ## Issues and Problems

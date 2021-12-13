@@ -24,7 +24,7 @@
 <meta name="author" content="Sicheng Li, Weiyi Jiang and Xianmeng Wang" />
 
 
-<meta name="date" content="2021-12-12" />
+<meta name="date" content="2021-12-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -182,48 +182,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="missing-values" class="section level1" number="4">
 <h1><span class="header-section-number">Chapter 4</span> Missing values</h1>
-<table>
-<tbody>
-<tr class="odd">
-<td>#title: “missing_data”</td>
-</tr>
-<tr class="even">
-<td>#author: “Xianmeng Wang”</td>
-</tr>
-<tr class="odd">
-<td>#date: “11/18/2021”</td>
-</tr>
-<tr class="even">
-<td>#output: html_document</td>
-</tr>
-</tbody>
-</table>
 <p>In the dataset, only team attributes, player attributes and match contain NA values.</p>
 <div id="team-attributes-1" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Team attributes</h2>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>We see that only “buildUpPlayDribbling” has NA values. It is easy to think that the NA pattern of this attribute has something to with “buildUpPlayDribblingClass”. So we take a look at it.</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>We see that only “buildUpPlayDribbling” has NA values. It is easy to think that the NA pattern of this attribute has something to with “buildUpPlayDribblingClass”. So we take a look at it.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>As you can see, NA values are all in “little” class and nearly all sample with this class has an NA value in the score.</p>
 </div>
 <div id="player-attributes-1" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Player attributes</h2>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>As we can see, nearly all samples exist with no NA value. So in the data transformation we just throw them away.</p>
 </div>
 <div id="match-data" class="section level2" number="4.3">
 <h2><span class="header-section-number">4.3</span> Match data</h2>
 <p>Since there are so many attributes in match data, we split it in two parts. One is about players and the other is about the bet odds. Other attributes, including the column “country_id”, “league_id”, “season”, “stage”, “date”, “match_id”, “home_team_id”, “away_team_id”, “home_team_goal” and “away_team_goal” has no missing data in it.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>We firstly take a look at the players_id in the data. Since there is no intrinsic difference for players with different index, what we do here is to count the number of missing values of players in the data.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="missing-values.html#cb2-1" aria-hidden="true" tabindex="-1"></a>player_match <span class="ot">=</span> match[,<span class="dv">0</span><span class="sc">:</span><span class="dv">32</span>]</span>
 <span id="cb2-2"><a href="missing-values.html#cb2-2" aria-hidden="true" tabindex="-1"></a>player_match<span class="sc">$</span>na_count <span class="ot">&lt;-</span> <span class="fu">apply</span>(player_match, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span>
 <span id="cb2-3"><a href="missing-values.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(player_match, <span class="fu">aes</span>(<span class="at">x=</span>na_count)) <span class="sc">+</span> <span class="fu">geom_histogram</span>(<span class="at">bins=</span><span class="dv">22</span>)</span></code></pre></div>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>So as wee can see most data sample contains all 22 players’ id. Then in the data preprocessing session we just need to drop rows with NA values in players’ id.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="missing-values.html#cb3-1" aria-hidden="true" tabindex="-1"></a>bet_match <span class="ot">=</span> match <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>, <span class="dv">33</span><span class="sc">:</span><span class="dv">62</span>))</span>
 <span id="cb3-2"><a href="missing-values.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">missing_patterns_plot</span>(bet_match, T)</span></code></pre></div>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>We can see that there are numerous types of missing patterns about bets. Since we assume bets are irrelevant of the match result, this complex bet missing patterns are trivial to us.</p>
 
 </div>
