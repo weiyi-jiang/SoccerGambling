@@ -1,1 +1,25 @@
 # Results
+
+
+```{r}
+library(tidyverse)
+library(ggcorrplot)
+```
+
+```{r}
+player_attr <- read.csv("data/player_attributes.csv")
+```
+
+Long Passing, Curve, Short Passing, Crossing, Overall Rating, Ball Control, Potential, Reactions, Vision, Finishing, Volleys, Positioning, Marking, Sliding Tackle, Standing Tackle, Interceptions, Dribbling, Agility, Sprint Speed, Stamina
+```{r}
+corr <- cor(player_attr %>%
+                    drop_na() %>%
+          group_by(player_id) %>%
+          summarise_if(is.numeric, mean) %>%
+          select(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina))
+```
+
+```{r}
+heatmap(corr)
+```
+
