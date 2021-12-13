@@ -24,7 +24,7 @@ df <- sample_n(df, 5000)
 There are 183978 players in this dataframe and only about 3000 rows contain NA values. Therefore, directly dropping NA variables is feasible. After that, we sample 5000 of them for a convenient plot.
 
 ```{r}
-df <- read_csv('player_attributes.csv')
+df <- read_csv('data/player_attributes.csv')
 df <- df %>% drop_na()
 df <- sample_n(df, 5000)
 ```
@@ -233,7 +233,7 @@ biplot(PCA, xlabs=rep(".", nrow(ngs)))
 From missing data part we notice that the feature "buildUpPlayDribbling" contains NA values when "buildUpPlayDribblingClass" is little. Firstly we need to separately view the boxplot of "buildUpPlayDribbling" by "buildUpPlayDribblingClass"
 
 ```{r}
-team = read_csv('team_attributes.csv')
+team = read_csv('data/team_attributes.csv')
 team %>%
   ggplot(aes(x = buildUpPlayDribbling, y = factor(buildUpPlayDribblingClass, levels = c("Little", "Normal", "Lots")))) +
   geom_boxplot()
