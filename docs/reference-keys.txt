@@ -18,7 +18,7 @@ further-exploration-of-guards
 further-exploration-of-non-guards
 team-biplot
 combine
-five-factor-model
+a-five-factor-team-evaluation-system
 interactive-component
 conclusion
 results-1

@@ -102,7 +102,7 @@
 </ul></li>
 <li class="chapter" data-level="5.2" data-path="results.html"><a href="results.html#team-biplot"><i class="fa fa-check"></i><b>5.2</b> team biplot</a></li>
 <li class="chapter" data-level="5.3" data-path="results.html"><a href="results.html#combine"><i class="fa fa-check"></i><b>5.3</b> Combine</a></li>
-<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#five-factor-model"><i class="fa fa-check"></i><b>5.4</b> Five-Factor Model</a></li>
+<li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#a-five-factor-team-evaluation-system"><i class="fa fa-check"></i><b>5.4</b> A Five-Factor Team Evaluation System</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a>
@@ -196,12 +196,28 @@ The clustering shows it separates guard and other players.</p>
 <div id="combine" class="section level2" number="5.3">
 <h2><span class="header-section-number">5.3</span> Combine</h2>
 </div>
-<div id="five-factor-model" class="section level2" number="5.4">
-<h2><span class="header-section-number">5.4</span> Five-Factor Model</h2>
-<p>Long Passing, Curve, Short Passing, Crossing, Overall Rating, Ball Control, Potential, Reactions, Vision, Finishing, Volleys, Positioning, Marking, Sliding Tackle, Standing Tackle, Interceptions, Dribbling, Agility, Sprint Speed, Stamina</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-41-1.png" width="672" />
-We applied the Five-Factor Evaluation System and</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-43-1.png" width="960" /></p>
+<div id="a-five-factor-team-evaluation-system" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> A Five-Factor Team Evaluation System</h2>
+<p>Even though each team has some team attributes associated, it is crucial to include all players’ attributes when evaluating a team. Therefore, in this section, we attempt to aggregate player attributes into a team evaluation.</p>
+<p>We encode categorical attributes into one-hot vector and then take the averages for each of attributes across the team (due to the nature that the top players in a team is much more productive than others, we will use the top 6 players in building this system). Then, we run GBDT model for all attributes to find the relationship between attributes and the outcome (whether the team wins the match or the difference between the number of goals scored), and use <a href="https://www.kaggle.com/dansbecker/shap-values">SHAP value</a> to get the the ranking of feature importance. SHAP values interpret the impact of having a certain value for a given feature in comparison to the prediction we’d make if that feature took some baseline value. See this <a href="https://github.com/serendipitylee/SoccerGambling">Github repo</a> for more information.</p>
+<p>Following the introduced procedure, we then select the top 20 importance attributes for further analysis, which are <code>overall_rating</code>, <code>potential</code>, <code>ball_control</code>, <code>dribbling</code>, <code>agility</code>, <code>sprint_speed</code>, <code>short_passing</code>, <code>long_passing</code>, <code>vision</code>, <code>crossing</code>, <code>volleys</code>, <code>curve</code>, <code>finishing</code>, <code>standing_tackle</code>, <code>sliding_tackle</code>, <code>marking</code>, <code>interceptions</code>, <code>stamina</code>, <code>positioning</code> and <code>reactions</code>.</p>
+<p>To build a simpler and more explainable team evaluation system, we want to reduce our 20 picked attributes to only a few variables. We can first examine the correlation between each pair of attributes to get a sense of how similar between a pair of attributes.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>In a correlation heatmap, each block represents the correlation of two attributes. The darker the color, the stronger the correlation. From the above plot, we can observe some big block with similar degree of the color which reveals that those attributes share similar information and we can further more reduce them to a lower dimension. To achieve that, we first apply clustering algorithm. See this <a href="https://github.com/serendipitylee/SoccerGambling">Github repo</a> for more information.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-43-1.png" width="960" />
+In have a better view of the cluster, we reorder the same heatmap and highlight each cluster. The final 5 clusters can be explained as following:</p>
+<p><strong>Passing</strong>: <code>long_passing</code>, <code>curve</code>, <code>short_passing</code>, <code>crossing</code>. Those attributes are all about passing.</p>
+<p><strong>Overall</strong>: <code>overall_rating</code>, <code>ball_control</code>, <code>potential</code>, <code>reactions</code>. Overall rating and potential are types of generalization, and reactions and ball controlling are important to every situation.</p>
+<p><strong>Shot</strong>: <code>vision</code>, <code>finishing</code>, <code>volleys</code>, <code>positioning</code>. It is apparent that finishing is about shots and volleys is a way to shoot. Why vision and positioning are important in getting goals? Although according to the schema visions are highly-correlated with long-passing, good vision and positioning can help with achieving goals. Let’s consider about the goals after the corner kick as an example. With brilliant vision and positioning, there is higher possibility in getting goals.</p>
+<p><strong>Tackle</strong>: <code>marking</code>, <code>sliding_tackle</code>, <code>standing_tackle</code>, <code>interceptions</code>. These attributes are about dispossess an opponent of the ball.</p>
+<p><strong>Physical</strong>: <code>dribbling</code>, <code>agility</code>, <code>sprint_speed</code>, <code>stamina</code>. Agility, sprint speed and stamina are about physical quality. And dribbling is here because perfect physical quality can lead to better dribbling ability.</p>
+<p>We can then apply dimension reduction technique to each cluster and reduce them to a 5 index evaluation system. And each index is a combination of corresponding attributes. See this <a href="https://github.com/serendipitylee/SoccerGambling">Github repo</a> for more information. The result is shown below:</p>
+<p>Passing = 0.95 * 0.95 * long passing + 2.02 * curve + 5.50 * short passing + 1.06 * crossing</p>
+<p>Overall = 3.54 * overall rating + 2.37 * ball control + 1.27 * potential + 1.09 * reactions</p>
+<p>Shot = 3.89 * vision + 1.01 * finishing + 1.83 * volleys + 2.93 * positioning</p>
+<p>Tackle = -0.70 * marking + 4.52 * sliding tackle + 1.34 * standing tackle + 5.57 * interceptions</p>
+<p>Physical = 6.50 * dribbling + 1.11 * agility + 0.34 * sprint speed + 2.19 * stamina</p>
+<p>Now, we can input the averages of the top 6 players in a team and learn their playing styple in the context of those 5 index, and also we can easily compare the styles and ability between teams. Playing around with the interactive plot in the next chapter to understand the system better.</p>
 
 </div>
 </div>
