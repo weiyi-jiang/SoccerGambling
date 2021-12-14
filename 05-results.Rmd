@@ -230,24 +230,100 @@ biplot(team_pca, xlabs=rep(".", nrow(team)))
 ```
 
 ## Combine
+
+Here we would like to explore how each team was really formed. We firstly classifies the types of goalkeepers and guards(defenders) or non-guards(attackers). Finally we would like to have a try to see the relationship between team formation and the odds to win.
 ```{r}
 predict.kmeans <- function(x, newdata){
   apply(newdata, 1, function(r) which.min(colSums((t(x$centers) - r)^2)))
 }
         
-player_data <- read_csv('data/player_attributes.csv') %>% drop_na()
+match <- read_csv('match.csv') %>% subset(select=date:away_player_11) %>% drop_na()
+player_data <- read_csv('player_attributes.csv') %>% drop_na()
 temp_gk2 <- player_data %>% select_if(is.numeric) %>% select(-player_id)
 temp_gk <- player_data %>% select(gks)
 player_data <- player_data %>% mutate(goalkeeper = predict(gk_model, temp_gk))
 temp_guard <- player_data %>% select(guard_features)
 player_data <- player_data %>% mutate(guard = predict(model, temp_guard))
 player_data <- player_data %>% mutate(goalkeeper_type = predict(gkpca_model, predict(gkpca, temp_gk2)[,c(1:2)]))
-# player_data <- player_data %>% group_by(player_id) %>% summarise_all(last)
+player_data <- player_data %>% group_by(player_id) %>% summarise_all(last)
+player_data <- player_data %>% mutate(across(c(goalkeeper, guard, goalkeeper_type), as.numeric))
+
+data <- player_data %>% group_by(goalkeeper) %>% summarise(m = n()) %>% arrange(goalkeeper)
+if(data$m[1] > data$m[2]){
+  goalsign = 2
+} else {
+  goalsign = 1
+}
+data <- player_data %>% filter(goalkeeper != goalsign) %>% group_by(guard) %>% summarise(m = n()) %>% arrange(guard)
+if(data$m[1] > data$m[2]){
+  guardsign = 1
+} else {
+  guardsign = 2
+}
+
+playerclass <- function(data){
+  colnames(data) <- c('player_id')
+  data <- merge(data, player_data, by='player_id', all.x = T)
+  data <- data %>% mutate(g1 = ifelse((data$goalkeeper == goalsign) & (data$goalkeeper_type == 1), 1, 0))
+  data <- data %>% mutate(g2 = ifelse((data$goalkeeper == goalsign) & (data$goalkeeper_type == 2), 1, 0))
+  data <- data %>% mutate(attacker = ifelse((data$goalkeeper != goalsign) & (data$guard != guardsign), 1, 0))
+  data <- data %>% mutate(defender = ifelse((data$goalkeeper != goalsign) & (data$guard == guardsign), 1, 0))
+  data <- data %>% subset(select = c('g1', 'g2', 'attacker', 'defender'))
+}
+
+playersum <- function(data){
+  tmp <- data.frame(matrix(0, nrow(data), 4))
+  colnames(tmp) <- c('g1', 'g2', 'attacker', 'defender')
+  for(x in colnames(data)){
+    new <- playerclass(data %>% select(x))
+    tmp = tmp + new
+  }
+  tmp = tmp
+}
+
+home_data = playersum(match %>% subset(select=c(home_player_1:home_player_11)))
+home_data = home_data %>% mutate(homeg = paste(home_data$g1, home_data$g2))
+home_data = home_data %>% mutate(homep = paste(home_data$attacker, home_data$defender))
+home_data = home_data %>% mutate(homea = paste(home_data$homeg, home_data$homep))
+away_data = playersum(match %>% subset(select=c(away_player_1:away_player_11)))
+away_data = away_data %>% mutate(awayg = paste(away_data$g1, away_data$g2))
+away_data = away_data %>% mutate(awayp = paste(away_data$attacker, away_data$defender))
+away_data = away_data %>% mutate(awaya = paste(away_data$awayg, away_data$awayp))
+match_data = match %>% select(c('home_team_goal', 'away_team_goal')) %>% bind_cols(home_data) %>% bind_cols(away_data) %>% drop_na()
+match_data = match_data %>% mutate(result = ifelse(home_team_goal > away_team_goal, 'win', ifelse(home_team_goal < away_team_goal, 'lose', 'draw')))
+match_data = match_data %>% select(c('homeg', 'homep', 'homea', 'awayg', 'awayp', 'awaya', 'result'))
 ```
 
+We firstly take a look at the goalkeepers formation. Below are for 
 
 ```{r}
-match <- read_csv('data/match.csv') %>% subset(select=date:away_player_11) %>% drop_na()
+match_data %>%  ggplot(aes(x = homeg)) + geom_bar(aes(y = (..count..)/sum(..count..))) + ylab('percent')
+```
+
+It looks like some teams have 0 or more than 1 goalkeeper. That is because some players are misclassified. 
+
+```{r}
+match_data %>%  ggplot(aes(x = awayg)) + geom_bar(aes(y = (..count..)/sum(..count..))) + ylab('percent')
+```
+
+```{r}
+match_data %>%  ggplot(aes(x = homep)) + geom_bar(aes(y = (..count..)/sum(..count..))) + ylab('percent')
+```
+
+```{r}
+match_data %>%  ggplot(aes(x = awayp)) + geom_bar(aes(y = (..count..)/sum(..count..))) + ylab('percent')
+```
+
+```{r}
+match_data %>% ggplot(aes(x = result, fill = result)) + geom_bar(aes(y = (..count..)/tapply(..count..,..PANEL..,sum)[..PANEL..])) + ylab('percent') + xlab('goalkeeper selection') + facet_grid(awayg ~ homeg)
+```
+
+```{r}
+match_data = match_data %>% filter((homeg == '1 0') | (homeg == '0 1')) %>% filter((awayg == '1 0') | (awayg == '0 1'))
+```
+
+```{r}
+match_data %>% ggplot(aes(x = result, fill = result)) + geom_bar(aes(y = (..count..)/tapply(..count..,..PANEL..,sum)[..PANEL..])) + ylab('percent') + xlab('player selection') + facet_grid(awayp ~ homep)
 ```
 
 ## A Five-Factor Team Evaluation System
