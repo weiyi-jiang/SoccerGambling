@@ -1,4 +1,7 @@
 # Data sources
+https://sofifa.com: The player and team datasets of the game FIFA football. The popular game FIFA series, authorized by FIFA and developed by EAsports, gives a simulation environment of the real football world. FIFA provides player and team attributes based on real world performance and potential. The dataset is widely used in football related data science tasks.
+
+https://www.football-data.co.uk/data.php: A general data website providing current matches, betting odds and recent team stats.
 
 ## Data description
 The data used for this project are downloaded and crawled from different related open data websites. After organizing we have the following datasets:
@@ -12,6 +15,7 @@ Key: team_id
 [Source](https://www.football-data.co.uk/data.php)
 
 ``match`` Match outcomes dataset.
+
 Attributes: 62 columns including match scores and lineup of each team.
 
 Key: match_id
@@ -19,14 +23,16 @@ Key: match_id
 [Source](https://www.football-data.co.uk/data.php)
 
 ``player_attributes`` skill attributes for players.
-Attributes: 40 columns including 35 categories of football playing skills.
+
+Attributes: 40 columns including 35 categories of football playing skills where preferred_foot,attacking_work_rate and defensive_work_rate are categorical data. The others are numerical data ranging from 0-99.
 
 Key: player_id
 
 [Source](https://sofifa.com)
 
 ``team_attributes`` playing style for teams.
-Attributes: 23 columns including 20 categories of team playing styles.
+
+Attributes: 23 columns including 20 categories of team playing styles where defenceTeamWidth, defenceAggression, buildUpPlaySpeed, buildUpPlayDribbling, buildUpPlayPassing, chanceCreationPassing, chanceCreationCrossing, chanceCreationShooting and defenceAggression are numerical data ranging from 0-99. The others are categorical data indicating the playing style of a team.
 
 Key: team_id
 

@@ -131,6 +131,8 @@
             <section class="normal" id="section-">
 <div id="data-transformation" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
+<p>For the player_attribute data, we crawled the data from <a href="https://sofifa.com" class="uri">https://sofifa.com</a> with python requests package and parsel package into json format. We used regular expressions to match the data in the website and the attributes that we need. We further parsed the json format into csv for R to read. The python script is attached in the repo.</p>
+<p>For the other data, we directly downloaded them from source website with csv format. We did some data cleaning work including matching player id and matching team id due to the representation of player and team between two websites are slightly different. We chose the intersection between the two datasets as they have different players in different leagues. In general, FIFA data covers more player than uk football data.</p>
 <div id="team-attributes" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> Team attributes</h2>
 <p>From missing data part we notice that the feature “buildUpPlayDribbling” contains NA values when “buildUpPlayDribblingClass” is little. Firstly we need to separately view the boxplot of “buildUpPlayDribbling” by “buildUpPlayDribblingClass”</p>

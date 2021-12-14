@@ -11,7 +11,7 @@ site: bookdown::bookdown_site
 
   Modern football is played by two teams, 11 players each. Players are separated into strikers(ST), midfielders(MF), defenders(DF) and goalkeepers(GK). Only one GK at a time is allowed on the ground, who can touch the ball with hands in the penalty area. The formations of the team and the strategies of playing can be varied and sophisticated. The job of the head coach is to give instructions on the team, investigating the rivals and trying to make the best out of the current squads. 
 
-  The International Association of Football (FIFA), formed in 1904, centralizes the sport’s governance and overall management,including modifying soccer rules, organizing the FIFA World Cup and coordinating events. It has grown to be one of the most effective steward of the sport globally. The popular game FIFA series, authorized by FIFA, gives a simulation environment of the real football world.  
+  The International Association of Football (FIFA), formed in 1904, centralizes the sport’s governance and overall management,including modifying soccer rules, organizing the FIFA World Cup and coordinating events. It has grown to be one of the most effective steward of the sport globally.  
 
   In this project, we are going to use the data of the players and teams to analyze the skills of each player, cluster the players based on the attributes and explore playing style patterns of each team from their star players.
 

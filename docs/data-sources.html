@@ -131,6 +131,8 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
+<p><a href="https://sofifa.com" class="uri">https://sofifa.com</a>: The player and team datasets of the game FIFA football. The popular game FIFA series, authorized by FIFA and developed by EAsports, gives a simulation environment of the real football world. FIFA provides player and team attributes based on real world performance and potential. The dataset is widely used in football related data science tasks.</p>
+<p><a href="https://www.football-data.co.uk/data.php" class="uri">https://www.football-data.co.uk/data.php</a>: A general data website providing current matches, betting odds and recent team stats.</p>
 <div id="data-description" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Data description</h2>
 <p>The data used for this project are downloaded and crawled from different related open data websites. After organizing we have the following datasets:</p>
@@ -138,16 +140,16 @@
 Attributes: team_id, team_long_name, team_short_name</p>
 <p>Key: team_id</p>
 <p><a href="https://www.football-data.co.uk/data.php">Source</a></p>
-<p><code>match</code> Match outcomes dataset.
-Attributes: 62 columns including match scores and lineup of each team.</p>
+<p><code>match</code> Match outcomes dataset.</p>
+<p>Attributes: 62 columns including match scores and lineup of each team.</p>
 <p>Key: match_id</p>
 <p><a href="https://www.football-data.co.uk/data.php">Source</a></p>
-<p><code>player_attributes</code> skill attributes for players.
-Attributes: 40 columns including 35 categories of football playing skills.</p>
+<p><code>player_attributes</code> skill attributes for players.</p>
+<p>Attributes: 40 columns including 35 categories of football playing skills where preferred_foot,attacking_work_rate and defensive_work_rate are categorical data. The others are numerical data ranging from 0-99.</p>
 <p>Key: player_id</p>
 <p><a href="https://sofifa.com">Source</a></p>
-<p><code>team_attributes</code> playing style for teams.
-Attributes: 23 columns including 20 categories of team playing styles.</p>
+<p><code>team_attributes</code> playing style for teams.</p>
+<p>Attributes: 23 columns including 20 categories of team playing styles where defenceTeamWidth, defenceAggression, buildUpPlaySpeed, buildUpPlayDribbling, buildUpPlayPassing, chanceCreationPassing, chanceCreationCrossing, chanceCreationShooting and defenceAggression are numerical data ranging from 0-99. The others are categorical data indicating the playing style of a team.</p>
 <p>Key: team_id</p>
 <p><a href="https://sofifa.com">Source</a></p>
 </div>

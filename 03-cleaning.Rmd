@@ -1,4 +1,7 @@
 # Data transformation
+For the player_attribute data, we crawled the data from https://sofifa.com with python requests package and parsel package into json format. We used regular expressions to match the data in the website and the attributes that we need. We further parsed the json format into csv for R to read. The python script is attached in the repo.
+
+For the other data, we directly downloaded them from source website with csv format. We did some data cleaning work including matching player id and matching team id due to the representation of player and team between two websites are slightly different. We chose the intersection between the two datasets as they have different players in different leagues. In general, FIFA data covers more player than uk football data.
 
 ```{r}
 library(tidyverse)
