@@ -237,8 +237,8 @@ predict.kmeans <- function(x, newdata){
   apply(newdata, 1, function(r) which.min(colSums((t(x$centers) - r)^2)))
 }
         
-match <- read_csv('match.csv') %>% subset(select=date:away_player_11) %>% drop_na()
-player_data <- read_csv('player_attributes.csv') %>% drop_na()
+match <- read_csv('data/match.csv') %>% subset(select=date:away_player_11) %>% drop_na()
+player_data <- read_csv('data/player_attributes.csv') %>% drop_na()
 temp_gk2 <- player_data %>% select_if(is.numeric) %>% select(-player_id)
 temp_gk <- player_data %>% select(gks)
 player_data <- player_data %>% mutate(goalkeeper = predict(gk_model, temp_gk))

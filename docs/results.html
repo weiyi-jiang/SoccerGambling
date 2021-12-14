@@ -195,6 +195,15 @@ The clustering shows it separates guard and other players.</p>
 </div>
 <div id="combine" class="section level2" number="5.3">
 <h2><span class="header-section-number">5.3</span> Combine</h2>
+<p>Here we would like to explore how each team was really formed. We firstly classifies the types of goalkeepers and guards(defenders) or non-guards(attackers). Finally we would like to have a try to see the relationship between team formation and the odds to win.</p>
+<p>We firstly take a look at the goalkeepers formation. Below are for</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>It looks like some teams have 0 or more than 1 goalkeeper. That is because some players are misclassified.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
 </div>
 <div id="a-five-factor-team-evaluation-system" class="section level2" number="5.4">
 <h2><span class="header-section-number">5.4</span> A Five-Factor Team Evaluation System</h2>
@@ -202,9 +211,9 @@ The clustering shows it separates guard and other players.</p>
 <p>We encode categorical attributes into one-hot vector and then take the averages for each of attributes across the team (due to the nature that the top players in a team is much more productive than others, we will use the top 6 players in building this system). Then, we run GBDT model for all attributes to find the relationship between attributes and the outcome (whether the team wins the match or the difference between the number of goals scored), and use <a href="https://www.kaggle.com/dansbecker/shap-values">SHAP value</a> to get the the ranking of feature importance. SHAP values interpret the impact of having a certain value for a given feature in comparison to the prediction we’d make if that feature took some baseline value. See this <a href="https://github.com/serendipitylee/SoccerGambling">Github repo</a> for more information.</p>
 <p>Following the introduced procedure, we then select the top 20 importance attributes for further analysis, which are <code>overall_rating</code>, <code>potential</code>, <code>ball_control</code>, <code>dribbling</code>, <code>agility</code>, <code>sprint_speed</code>, <code>short_passing</code>, <code>long_passing</code>, <code>vision</code>, <code>crossing</code>, <code>volleys</code>, <code>curve</code>, <code>finishing</code>, <code>standing_tackle</code>, <code>sliding_tackle</code>, <code>marking</code>, <code>interceptions</code>, <code>stamina</code>, <code>positioning</code> and <code>reactions</code>.</p>
 <p>To build a simpler and more explainable team evaluation system, we want to reduce our 20 picked attributes to only a few variables. We can first examine the correlation between each pair of attributes to get a sense of how similar between a pair of attributes.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
 <p>In a correlation heatmap, each block represents the correlation of two attributes. The darker the color, the stronger the correlation. From the above plot, we can observe some big block with similar degree of the color which reveals that those attributes share similar information and we can further more reduce them to a lower dimension. To achieve that, we first apply clustering algorithm. See this <a href="https://github.com/serendipitylee/SoccerGambling">Github repo</a> for more information.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-43-1.png" width="960" />
+<p><img src="finalproj_files/figure-html/unnamed-chunk-49-1.png" width="960" />
 In have a better view of the cluster, we reorder the same heatmap and highlight each cluster. The final 5 clusters can be explained as following:</p>
 <p><strong>Passing</strong>: <code>long_passing</code>, <code>curve</code>, <code>short_passing</code>, <code>crossing</code>. Those attributes are all about passing.</p>
 <p><strong>Overall</strong>: <code>overall_rating</code>, <code>ball_control</code>, <code>potential</code>, <code>reactions</code>. Overall rating and potential are types of generalization, and reactions and ball controlling are important to every situation.</p>
