@@ -3,7 +3,7 @@
 
 ```{r}
 library(tidyverse)
-library(ggcorrplot)
+library(patchwork)
 ```
 
 ```{r}
@@ -13,13 +13,51 @@ player_attr <- read.csv("data/player_attributes.csv")
 Long Passing, Curve, Short Passing, Crossing, Overall Rating, Ball Control, Potential, Reactions, Vision, Finishing, Volleys, Positioning, Marking, Sliding Tackle, Standing Tackle, Interceptions, Dribbling, Agility, Sprint Speed, Stamina
 ```{r}
 corr <- cor(player_attr %>%
-                    drop_na() %>%
-          group_by(player_id) %>%
-          summarise_if(is.numeric, mean) %>%
-          select(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina))
+              drop_na() %>%
+          select(curve, long_passing, crossing, vision, agility, overall_rating, volleys, finishing, sliding_tackle, marking, short_passing, sprint_speed, standing_tackle, reactions, positioning, dribbling, potential, interceptions, ball_control, stamina))
+
+melted_cormat <- reshape2::melt(corr)
+names(melted_cormat) <- c("Var1", "Var2", "correlation")
 ```
 
 ```{r}
-heatmap(corr)
+ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=correlation)) +
+  geom_tile() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  scale_fill_gradient(low = "white", high = "red") +
+  coord_equal() +
+  labs(title = "Correlation Between Picked Attributes", x = "attributes", y = "attributes")
+```
+We applied the Five-Factor Evaluation System and
+```{r}
+corr <- cor(player_attr %>%
+              drop_na() %>%
+          select(long_passing, curve, short_passing, crossing, overall_rating, ball_control, potential, reactions, vision, finishing, volleys, positioning, marking, sliding_tackle, standing_tackle, interceptions, dribbling, agility, sprint_speed, stamina))
+
+melted_cormat <- reshape2::melt(corr)
+names(melted_cormat) <- c("Var1", "Var2", "correlation")
+```
+
+```{r fig.height=10, fig.width=10}
+par(mfrow=c(1,2))
+corrplot2 <- ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=correlation)) +
+  geom_tile() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  scale_fill_gradient(low = "white", high = "red") +
+  coord_equal() +
+  labs(title = "Correlation Between Picked Attributes\nReordered Based on Clusters", x = "attributes", y = "attributes") 
+corrplot22 <- corrplot2 + 
+geom_rect(mapping = aes(xmin = 0.5, xmax = 4.5, ymin = 0.5, ymax = 4.5),
+          fill = NA, col = "black")  + 
+geom_rect(mapping = aes(xmin = 4.5, xmax = 8.5, ymin = 4.5, ymax = 8.5),
+          fill = NA, col = "black") +
+geom_rect(mapping = aes(xmin = 8.5, xmax = 12.5, ymin = 8.5, ymax = 12.5),
+          fill = NA, col = "black") +
+geom_rect(mapping = aes(xmin = 12.5, xmax = 16.5, ymin = 12.5, ymax = 16.5),
+          fill = NA, col = "black") +
+geom_rect(mapping = aes(xmin = 16.5, xmax = 20.5, ymin = 16.5, ymax = 20.5),
+          fill = NA, col = "black") +
+  labs(title = "Correlation Between Picked Attributes\nReordered Based on Clusters\nwith Clusters Highlighted")
+corrplot2+corrplot22
 ```
 
