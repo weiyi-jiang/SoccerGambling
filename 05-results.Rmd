@@ -250,20 +250,28 @@ player_data <- player_data %>% mutate(goalkeeper_type = predict(gkpca_model, pre
 match <- read_csv('data/match.csv') %>% subset(select=date:away_player_11) %>% drop_na()
 ```
 
-## Five-Factor Model
+## A Five-Factor Team Evaluation System
+Even though each team has some team attributes associated, it is crucial to include all players' attributes when evaluating a team. Therefore, in this section, we attempt to aggregate player attributes into a team evaluation.
 ```{r}
 player_attr <- read.csv("data/player_attributes.csv")
 ```
 
-Long Passing, Curve, Short Passing, Crossing, Overall Rating, Ball Control, Potential, Reactions, Vision, Finishing, Volleys, Positioning, Marking, Sliding Tackle, Standing Tackle, Interceptions, Dribbling, Agility, Sprint Speed, Stamina
+We encode categorical attributes into one-hot vector and then take the averages for each of attributes across the team (due to the nature that the top players in a team is much more productive than others, we will use the top 6 players in building this system). Then, we run GBDT model for all attributes to find the relationship between attributes and the outcome (whether the team wins the match or the difference between the number of goals scored), and use [SHAP value](https://www.kaggle.com/dansbecker/shap-values) to get the the ranking of feature importance. SHAP values interpret the impact of having a certain value for a given feature in comparison to the prediction we'd make if that feature took some baseline value. See this [Github repo](https://github.com/serendipitylee/SoccerGambling) for more information.
+
+Following the introduced procedure, we then select the top 20 importance attributes for further analysis, which are ``overall_rating``, ``potential``, ``ball_control``, ``dribbling``, ``agility``, ``sprint_speed``, ``short_passing``, ``long_passing``, ``vision``, ``crossing``, ``volleys``, ``curve``, ``finishing``, ``standing_tackle``, ``sliding_tackle``, ``marking``, ``interceptions``, ``stamina``, ``positioning`` and ``reactions``.
+
+To build a simpler and more explainable team evaluation system, we want to reduce our 20 picked attributes to only a few variables. We can first examine the correlation between each pair of attributes to get a sense of how similar between a pair of attributes.
+
 ```{r}
 corr <- cor(player_attr %>%
               drop_na() %>%
-          select(curve, long_passing, crossing, vision, agility, overall_rating, volleys, finishing, sliding_tackle, marking, short_passing, sprint_speed, standing_tackle, reactions, positioning, dribbling, potential, interceptions, ball_control, stamina))
+          select(overall_rating, potential, ball_control, dribbling, agility, sprint_speed, short_passing, long_passing, vision, crossing, volleys, curve, finishing, standing_tackle, sliding_tackle, marking, interceptions, stamina, positioning,  reactions))
 
 melted_cormat <- reshape2::melt(corr)
 names(melted_cormat) <- c("Var1", "Var2", "correlation")
 ```
+
+
 
 ```{r}
 ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=correlation)) +
@@ -273,7 +281,9 @@ ggplot(data = melted_cormat, aes(x=Var1, y=Var2, fill=correlation)) +
   coord_equal() +
   labs(title = "Correlation Between Picked Attributes", x = "attributes", y = "attributes")
 ```
-We applied the Five-Factor Evaluation System and
+
+In a correlation heatmap, each block represents the correlation of two attributes. The darker the color, the stronger the correlation. From the above plot, we can observe some big block with similar degree of the color which reveals that those attributes share similar information and we can further more reduce them to a lower dimension. To achieve that, we first apply clustering algorithm. See this [Github repo](https://github.com/serendipitylee/SoccerGambling) for more information.
+
 ```{r}
 corr <- cor(player_attr %>%
               drop_na() %>%
@@ -305,4 +315,28 @@ geom_rect(mapping = aes(xmin = 16.5, xmax = 20.5, ymin = 16.5, ymax = 20.5),
   labs(title = "Correlation Between Picked Attributes\nReordered Based on Clusters\nwith Clusters Highlighted")
 corrplot2+corrplot22
 ```
+In have a better view of the cluster, we reorder the same heatmap and highlight each cluster. The final 5 clusters can be explained as following:
 
+**Passing**: ``long_passing``, ``curve``, ``short_passing``, ``crossing``. Those attributes are all about passing.
+
+**Overall**: ``overall_rating``, ``ball_control``, ``potential``, ``reactions``. Overall rating and potential are types of generalization, and reactions and ball controlling are important to every situation.
+
+**Shot**: ``vision``, ``finishing``, ``volleys``, ``positioning``. It is apparent that finishing is about shots and volleys is a way to shoot. Why vision and positioning are important in getting goals? Although according to the schema visions are highly-correlated with long-passing, good vision and positioning can help with achieving goals. Let’s consider about the goals after the corner kick as an example. With brilliant vision and positioning, there is higher possibility in getting goals.
+
+**Tackle**: ``marking``, ``sliding_tackle``, ``standing_tackle``, ``interceptions``. These attributes are about dispossess an opponent of the ball.
+
+**Physical**: ``dribbling``, ``agility``, ``sprint_speed``, ``stamina``. Agility, sprint speed and stamina are about physical quality. And dribbling is here because perfect physical quality can lead to better dribbling ability.
+
+We can then apply dimension reduction technique to each cluster and reduce them to a 5 index evaluation system. And each index is a combination of corresponding attributes. See this [Github repo](https://github.com/serendipitylee/SoccerGambling) for more information. The result is shown below:
+
+Passing = 0.95 * 0.95 * long passing + 2.02 * curve + 5.50 * short passing + 1.06 * crossing
+
+Overall = 3.54 * overall rating + 2.37 * ball control + 1.27 * potential + 1.09 * reactions
+
+Shot = 3.89 * vision + 1.01 * finishing + 1.83 * volleys + 2.93 * positioning
+
+Tackle = -0.70 * marking + 4.52 * sliding tackle + 1.34 * standing tackle + 5.57 * interceptions
+
+Physical = 6.50 * dribbling + 1.11 * agility + 0.34 * sprint speed + 2.19 * stamina
+
+Now, we can input the averages of the top 6 players in a team and learn their playing styple in the context of those 5 index, and also we can easily compare the styles and ability between teams. Playing around with the interactive plot in the next chapter to understand the system better.
