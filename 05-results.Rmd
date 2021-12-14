@@ -192,9 +192,9 @@ pca_back <- function(pca, comp = 2){
 
 dr_data <- data.frame(gkpca$x[,c(1:2)])
 gkpca_model <- dr_data %>% kmeans(2)
-dr_data <- dr_data %>% mutate(class = gkpca_model$cluster - 1)
+dr_data <- dr_data %>% mutate(class = as.factor(gkpca_model$cluster - 1))
 dr_data %>%
-  ggplot(aes(x = PC1, y = PC2, color = factor(class))) +
+  ggplot(aes(x = PC1, y = PC2, color = class)) +
   geom_point(alpha = 0.7)
 ```
 
