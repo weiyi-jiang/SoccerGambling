@@ -1,30 +1,24 @@
-
+---
+title: "03-cleaning"
+author: "Xianmeng Wang"
+date: "11/26/2021"
+output: html_document
+---
 # Data transformation
-The data from https://www.football-data.co.uk/data.php can be directly downloaded in csv format.
 
-We crawled the data from https://sofifa.com into json format with web crawler based on requests package and parsel package in python. We further transform the json into csv format as the raw data. The crawler is attached in the github repo.
-
-
-## Player Attributes
-
-There are 183978 players in this dataframe and only about 3000 rows contain NA values. Therefore, directly dropping NA variables is feasible. After that, we sample 5000 of them for a convenient plot.
-
-```{r}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(GGally)
 set.seed(12580)
-df <- read_csv('data/player_attributes.csv')
-df <- df %>% drop_na()
-df <- sample_n(df, 5000)
 ```
-
 
 ## Player Attributes
 
 There are 183978 players in this dataframe and only about 3000 rows contain NA values. Therefore, directly dropping NA variables is feasible. After that, we sample 5000 of them for a convenient plot.
 
 ```{r}
-df <- read_csv('data/player_attributes.csv')
+df <- read_csv('player_attributes.csv')
 df <- df %>% drop_na()
 df <- sample_n(df, 5000)
 ```
@@ -68,7 +62,7 @@ yn <- function (x){
 
 gk_model <- df %>% select(gks) %>% kmeans(2) 
 df <- df %>% mutate(goalkeeper = gk_model$cluster - 1)
-if(model$centers[2, 1] > model$centers[1, 1]){
+if(gk_model$centers[2, 1] > gk_model$centers[1, 1]){
   labels = c("NO", "YES")
 }else{
   labels = c("YES", "NO")
@@ -233,7 +227,7 @@ biplot(PCA, xlabs=rep(".", nrow(ngs)))
 From missing data part we notice that the feature "buildUpPlayDribbling" contains NA values when "buildUpPlayDribblingClass" is little. Firstly we need to separately view the boxplot of "buildUpPlayDribbling" by "buildUpPlayDribblingClass"
 
 ```{r}
-team = read_csv('data/team_attributes.csv')
+team = read_csv('team_attributes.csv')
 team %>%
   ggplot(aes(x = buildUpPlayDribbling, y = factor(buildUpPlayDribblingClass, levels = c("Little", "Normal", "Lots")))) +
   geom_boxplot()
@@ -261,4 +255,25 @@ team$buildUpPlayDribbling[is.na(team$buildUpPlayDribbling)] = m
 ```{r}
 team_pca = team %>% select_if(is.numeric) %>% select(-team_id) %>% prcomp(scale. = T, center = T)
 biplot(team_pca, xlabs=rep(".", nrow(team)))
+```
+
+## Combine
+```{r}
+predict.kmeans <- function(x, newdata){
+  apply(newdata, 1, function(r) which.min(colSums((t(x$centers) - r)^2)))
+}
+        
+player_data <- read_csv('player_attributes.csv') %>% drop_na()
+temp_gk2 <- player_data %>% select_if(is.numeric) %>% select(-player_id)
+temp_gk <- player_data %>% select(gks)
+player_data <- player_data %>% mutate(goalkeeper = predict(gk_model, temp_gk))
+temp_guard <- player_data %>% select(guard_features)
+player_data <- player_data %>% mutate(guard = predict(model, temp_guard))
+player_data <- player_data %>% mutate(goalkeeper_type = predict(gkpca_model, predict(gkpca, temp_gk2)[,c(1:2)]))
+# player_data <- player_data %>% group_by(player_id) %>% summarise_all(last)
+```
+
+
+```{r}
+match <- read_csv('match.csv') %>% subset(select=date:away_player_11) %>% drop_na()
 ```
