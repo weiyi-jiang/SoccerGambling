@@ -3,7 +3,12 @@ data-sources
 data-description
 issues-and-problems
 data-transformation
+team-attributes
+missing-values
+team-attributes-1
 player-attributes
+match-data
+results
 player-attributes-1
 filtering-goalkeepers
 filtering-guards
@@ -11,12 +16,8 @@ gk_kicking-issue
 further-exploration-of-goalkeeper
 further-exploration-of-guards
 further-exploration-of-non-guards
-team-attributes
 team-biplot
-missing-values
-team-attributes-1
-player-attributes-2
-match-data
-results
+combine
+five-factor-model
 interactive-component
 conclusion

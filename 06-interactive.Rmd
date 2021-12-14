@@ -9,6 +9,7 @@
     Although team attributes are given in the data
   </p>
   
+  <h4>Input the average of each attributes for the top 5 players</h4>
   <p>
   <label for="long_passing" 
     style="display: inline-block; width: 150px; text-align: left">
