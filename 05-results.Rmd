@@ -27,8 +27,9 @@ df %>%
   pivot_longer(cols = !player_id, names_to = 'property', values_to = 'score') %>%
   ggplot(aes(sample = score)) +
   stat_qq() +
-  stat_qq_line() +
-  facet_wrap(~property)
+  stat_qq_line(color = "red") +
+  facet_wrap(~property) +
+  labs(title = "QQ-plot for Each Attributes")
 ```
 
 We firstly notice that for features starting with the characters "gk", there is a significant deviance to normality. It is obviously because the goalkeepers are significantly better than other football players in these attributes. Since there is no information about whether one player is in charge of saving the goal. We decided to implement K-means clustering to classify them. We will not elaborate the specific ways to solve the problem since the project focuses on EDA. Before we implement this, we take a look at the histograms of "gk" features:
@@ -39,8 +40,9 @@ df %>%
   select(gks) %>%
   pivot_longer(cols = everything(), names_to = 'gk', values_to = 'score') %>%
   ggplot(aes(score)) +
-  geom_histogram() +
-  facet_wrap(~gk)
+  geom_histogram(color = "blue", fill = "lightblue") +
+  facet_wrap(~gk) +
+  labs(title = "Distribution of Goalkeeper Related Attributes")
 ```
 
 It is easy to notice that for these features, there are two clusters and probably the higher score is for goalkeepers and the lower score is for other players.
@@ -68,7 +70,8 @@ df %>%
   ggplot(aes(score, fill = factor(goalkeeper))) +
   geom_histogram(color = 'blue', alpha = 0.7, binwidth = 5) +
   facet_wrap(~property) +
-  scale_fill_discrete(name = "goalkeeper", labels = labels)
+  scale_fill_discrete(name = "goalkeeper", labels = labels) +
+  labs(title = "Distribution of Goalkeeper Related Attributes")
 ```
 
 We notice that except gk_kicking, all clusters clearly separated the supposed goalkeepers and other players. We surmise that there are some players who are not goalkeepers playing well in kicking. The research conducted on the types of these players will be explored later.
@@ -85,8 +88,9 @@ df %>%
   select(!c('date', 'preferred_foot', 'attacking_work_rate', 'defensive_work_rate', 'goalkeeper')) %>%
   pivot_longer(cols = !player_id, names_to = 'property', values_to = 'score') %>%
   ggplot(aes(score)) +
-  geom_histogram() +
-  facet_wrap(~property)
+  geom_histogram(color = "blue", fill = "lightblue") +
+  facet_wrap(~property) +
+  labs(title="Distribution of Each Attributes for Non-goalkeeper")
 ```
 
 From the histograms, we notice that four attributes contain bimodality. Those are 'gk_kicking', 'standing_tackle', 'sliding_tackle' and 'marking'. We then make a scatter matrices for these four data. 
@@ -119,7 +123,8 @@ ngk %>%
   ggplot(aes(score, fill = factor(guard), alpha=0.5)) +
   geom_histogram(color = 'blue', alpha = 0.5, binwidth = 5) +
   facet_wrap(~property) +
-  scale_fill_discrete(name = "guard", labels = labels)
+  scale_fill_discrete(name = "guard", labels = labels) +
+  labs(title = "Bimodality of Three Attributes")
 ```
 The clustering shows it separates guard and other players. 
 
@@ -142,7 +147,8 @@ ngs <- ngk %>% filter(guard!=guard_sign) %>% subset(select = -guard)
 So what happend to "gk_kicking" high score non-goalkeepers? In this part, we would like to take a simple exploration. Firstly, we categorize the players based on whether the "gk_kicking" score is higher than 18. You can see why we choose 18 based on the following plot.
 
 ```{r}
-ngk %>% ggplot(aes(x=gk_kicking)) + geom_histogram(bins=50) + geom_vline(xintercept=18, color='blue')
+ngk %>% ggplot(aes(x=gk_kicking)) + geom_histogram(bins=50, color = "blue", fill = "lightblue") + geom_vline(xintercept=18, color='blue') +
+  labs(title = "Distribution of gk_kicking")
 ```
 
 Then we plot the difference between two class on other features. Boxplot is used to avoid overplotting issue and increase the computing efficiency. The result is as followed:
@@ -153,7 +159,8 @@ cols = c(names(tmp %>% select_if(is.numeric)), 'gkk')
 tmp %>% select(cols) %>% select(-c(player_id, gks, guard)) %>% pivot_longer(cols=!gkk, names_to = 'property', values_to = 'score') %>%
   ggplot(aes(x=gkk, y=score)) +
   geom_boxplot() +
-  facet_wrap(~property)
+  facet_wrap(~property) +
+  labs(title = "Difference Between Goalkeepers and Non-goalkeepers")
 # tmp %>%
 #   select(c(guard_features, 'guard')) %>%
 #   pivot_longer(cols=!guard, names_to = 'property', values_to = 'score') %>%
@@ -195,8 +202,11 @@ gkpca_model <- dr_data %>% kmeans(2)
 dr_data <- dr_data %>% mutate(class = as.factor(gkpca_model$cluster - 1))
 dr_data %>%
   ggplot(aes(x = PC1, y = PC2, color = class)) +
-  geom_point(alpha = 0.7)
+  geom_point(alpha = 0.7) +
+  labs(title = "Two Clusters for Goalkeepers")
 ```
+
+
 
 ### further exploration of guards
 
@@ -210,6 +220,8 @@ PCA <- guards %>% select('standing_tackle', 'sliding_tackle', 'marking') %>% prc
 biplot(PCA, xlabs=rep(".", nrow(guards)))
 ```
 
+From the above two plots, we see that standing_tackle, sliding_tackle and marking, which represent most parts of a guards' ability, generally lies within the same direction (PC1). This implies that these features evaluates a guards more efficiently.
+
 ### further exploration of non-guards
 
 ```{r}
@@ -217,6 +229,7 @@ PCA <- ngs %>% select_if(is_numeric) %>% select(-c(player_id, gks)) %>% prcomp(s
 biplot(PCA, xlabs=rep(".", nrow(ngs)))
 ```
 
+From the above biplot, we can see that there's no significant strong 
 
 ## team biplot
 
@@ -228,6 +241,8 @@ team$buildUpPlayDribbling[is.na(team$buildUpPlayDribbling)] = m
 team_pca = team %>% select_if(is.numeric) %>% select(-team_id) %>% prcomp(scale. = T, center = T)
 biplot(team_pca, xlabs=rep(".", nrow(team)))
 ```
+
+In the team biplot, the features in the graph show no obvious pattern. As a result, we change to players attributes to investigate team playing styles.
 
 ## Combine
 
@@ -323,7 +338,8 @@ match_data = match_data %>% filter((homeg == '1 0') | (homeg == '0 1')) %>% filt
 ```
 
 ```{r}
-match_data %>% ggplot(aes(x = result, fill = result)) + geom_bar(aes(y = (..count..)/tapply(..count..,..PANEL..,sum)[..PANEL..])) + ylab('percent') + xlab('player selection') + facet_grid(awayp ~ homep)
+match_data %>% ggplot(aes(x = result, fill = result)) + geom_bar(aes(y = (..count..)/tapply(..count..,..PANEL..,sum)[..PANEL..])) + ylab('percent') + xlab('player selection') + facet_grid(awayp ~ homep) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
 ## A Five-Factor Team Evaluation System
