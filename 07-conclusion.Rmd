@@ -1,2 +1,9 @@
 # Conclusion
 
+## Results
+
+In this project, we studied player attributes data from FIFA football game, cleaned it and handled the missing values in a reasonable way. We succeeded to find patterns for players who are goalkeepers, defenders and other positions. After further exploration, we found that the player attributes is more detailed and have more information than team data. We thus provide a five-factor team evaluate model, aggregating 20 attributes into five evaluating dimensions of a team. We also designed the automatic evaluating system which evaluates the team with the average attributes of the top players.
+
+## Future Work
+
+We will further update the system with new football data and we will try to transfer the model into other sports, such as basketball, American football etc. We will also use the evaluating system to predict the match outcome.

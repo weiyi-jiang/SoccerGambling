@@ -33,7 +33,7 @@
   
 <link rel="prev" href="missing-values.html"/>
 <link rel="next" href="interactive-component.html"/>
-<script src="libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -105,7 +105,11 @@
 <li class="chapter" data-level="5.4" data-path="results.html"><a href="results.html#five-factor-model"><i class="fa fa-check"></i><b>5.4</b> Five-Factor Model</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
-<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
+<li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="conclusion.html"><a href="conclusion.html#results-1"><i class="fa fa-check"></i><b>7.1</b> Results</a></li>
+<li class="chapter" data-level="7.2" data-path="conclusion.html"><a href="conclusion.html#future-work"><i class="fa fa-check"></i><b>7.2</b> Future Work</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 </ul>
@@ -151,11 +155,11 @@
 <p><img src="finalproj_files/figure-html/unnamed-chunk-25-1.png" width="672" />
 The clustering shows it separates guard and other players.</p>
 <p>We can verify the justification of this clustering by simply looking at the count of guards and non-guards. In one sample, we found the total number of non-guards are 2687 and guards are 1909. The ratio is 1.41. Notice that usually the formation of the team are “4-6” like (e.g. 4-4-2, 4-2-3-1, 4-3-3) so the theoretical ratio should be 1.5, while 1.41 is close to this ratio.</p>
-<pre><code>## # A tibble: 2 x 2
+<pre><code>## # A tibble: 2 × 2
 ##   guard counts
 ##   &lt;dbl&gt;  &lt;int&gt;
-## 1     0   2695
-## 2     1   1896</code></pre>
+## 1     0   1909
+## 2     1   2687</code></pre>
 </div>
 <div id="gk_kicking-issue" class="section level3" number="5.1.3">
 <h3><span class="header-section-number">5.1.3</span> gk_kicking issue</h3>

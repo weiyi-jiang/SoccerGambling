@@ -13,7 +13,7 @@ site: bookdown::bookdown_site
 
   The International Association of Football (FIFA), formed in 1904, centralizes the sport’s governance and overall management,including modifying soccer rules, organizing the FIFA World Cup and coordinating events. It has grown to be one of the most effective steward of the sport globally. The popular game FIFA series, authorized by FIFA, gives a simulation environment of the real football world.  
 
-  In this project, we are going to use the data of the players, teams and matches to analyze the skills of each player, explore playing style patterns of each team even of each league and give a prediction of the match outcome.
+  In this project, we are going to use the data of the players and teams to analyze the skills of each player, cluster the players based on the attributes and explore playing style patterns of each team from their star players.
 
 
 

@@ -3,12 +3,6 @@
 ## Data description
 The data used for this project are downloaded and crawled from different related open data websites. After organizing we have the following datasets:
 
-``player`` European players spanning 11 counties and 11 leagues.
-Attributes: player_id, player_name, birthday, height, weight
-
-Key: player_id
-
-[Source](https://www.football-data.co.uk/data.php)
 
 ``team`` Reference dataset for the relevant teams.
 Attributes: team_id, team_long_name, team_short_name
